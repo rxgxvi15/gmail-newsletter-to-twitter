@@ -1,0 +1,212 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "sender": "ragavisivanesans@gmail.com"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        192
+      ],
+      "id": "6812d6b7-52ec-4bd2-9635-116d9504d02d",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KmHdCzjIviJEcieV",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "13TIfVg-nTk7lW5eLdCm1rH8gCfL07gu9t5FvU4oMoI4",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.snippet }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        80,
+        192
+      ],
+      "id": "bd40e384-32e6-4547-8a13-6842d6ad0e56",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "7VRBzE5hSRdhj4vr",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "transform data \n\n, so it is stored correct format"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8c583d7e-c08d-4603-b2f0-34d536ab8f6c",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code Node - Split text by newlines\n// Input: Text with \\n separators\n// Output: Array of items, each containing one line of text\n\nconst inputText = $input.first().json.content ;\n\n// Split by \\n and filter out empty lines\nconst lines = inputText.split('\\n').filter(line => line.trim() !== '');\n\n// Create output array - each line becomes a separate item\nconst items = lines.map((line, index) => ({\n  json: {\n    text: line.trim(),\n    lineNumber: index + 1,\n    originalInput: inputText,\n    totalLines: lines.length\n  }\n}));\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        192
+      ],
+      "id": "5f0aa030-7a3f-4a6a-b842-982728958c33",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}Hello world {{ $now }}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        992,
+        192
+      ],
+      "id": "b5bfdca2-15dd-44ca-ad27-c45eb173fe6f",
+      "name": "Create Tweet",
+      "retryOnFail": true,
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "XGxnwmkthJIBcYCk",
+          "name": "X account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "13TIfVg-nTk7lW5eLdCm1rH8gCfL07gu9t5FvU4oMoI4"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        304,
+        192
+      ],
+      "id": "07ef7e18-be99-445f-b2f8-e1000c3e11a3",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "7VRBzE5hSRdhj4vr",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        736,
+        192
+      ],
+      "id": "1e88c3b3-4c21-4f9a-ae1f-f30541a289e7",
+      "name": "Wait",
+      "webhookId": "20880ad2-4df4-4dc7-9c9f-ca2118ccfc65"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Create Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3ece2549-159e-4028-8412-9f71789832bd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f8aa622d501b00186fafdd04c77d62d1ea2d42af149ba7439217ed1a817f0a0"
+  },
+  "id": "HSYhX82xweedl9QA",
+  "tags": []
+}
