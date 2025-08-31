@@ -29,7 +29,7 @@ It connects Gmail, Google Docs, and Twitter (X) to automatically publish snippet
 
 
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - [n8n](https://n8n.io/) – Workflow automation tool
 - Gmail – Email trigger
