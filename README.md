@@ -4,7 +4,7 @@ This repository contains an **n8n automation workflow** that transforms email ne
 It connects Gmail, Google Docs, and Twitter (X) to automatically publish snippets extracted from incoming newsletters.
 
 
-## 🚀 Workflow Overview
+##  Workflow Overview
 
 1. **Gmail Trigger**  
    - Watches for new emails from a specific sender (e.g., `ragavisivanesans@gmail.com`).  
