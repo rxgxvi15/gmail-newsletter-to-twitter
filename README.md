@@ -52,4 +52,4 @@ It connects Gmail, Google Docs, and Twitter (X) to automatically publish snippet
 
 
 
-Do you want me to also update this into a **visual workflow diagram (flowchart)** so it’s easier to follow, or keep it as text only?
+
