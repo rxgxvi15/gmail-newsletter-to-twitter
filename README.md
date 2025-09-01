@@ -7,7 +7,7 @@ It connects Gmail, Google Docs, and Twitter (X) to automatically publish snippet
 ##  Workflow Overview
 
 1. **Gmail Trigger**  
-   - Watches for new emails from a specific sender (e.g., `ragavisivanesans@gmail.com`).  
+   - Watches for new emails from a specific sender (e.g., `xyz@gmail.com`).  
    - Runs every minute to check for new content.
 
 2. **Google Docs (Insert)**  
